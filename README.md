@@ -4,27 +4,23 @@ You can use the [editor on GitHub](https://github.com/jmsc65/Covid-Timeline/edit
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+### Files
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Files
+/Assets/
+Base.css
+CSS File taken from https://codepen.io/chriddyp/pen/bWLwgP.css
+layout.css
+Added CSS for flex-row of inputs + other stuff
+BNOCSFINAL1.csv
+This contains all the compiled data on all Twitter users.
+Tweets.csv
+This contains all the information on each user's tweets.
+App.py
+Code for the Bubble Chart
+Procfile, requirements.txt, runtime.txt
+Heroku stuff
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
