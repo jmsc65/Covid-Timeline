@@ -4,13 +4,15 @@
 <head>
  <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- style for info boxes on timeline -->
 <style type="text/css">
 
     .tooltip{
       position: absolute;
       text-align: center;
       width: 200px;
-   height: 200px;
+   height: 230px;
    padding: 2px;
    background: DarkSalmon;
    border: 0px;
@@ -27,7 +29,7 @@
   <h1>The beginnings of a pandemic</h1>
   <img src="scotland.svg" alt="scotland" width="150" height="100" />
   <h3>Covid-19 in Scotland - the first 100 days of the pandemic, analysed.</h3>
-  <p>A chart following key events and growth in Covid deaths in Scotland at the beginning of the pandemic</p>
+  <p>A chart tracking key events and growth in Covid deaths as the pandemic took hold of Scotland.</p>
 
   <ul>
     <li>The <b><span style="color: #005EB8"> line</span></b> and area beneath the graph represent cumulative deaths in Scotland and show the growth of deaths following confirmation of the first Covid case in Scotland on March 1st 2020. Hover over the line to read the cumulative death figure on a given day.</li>
@@ -41,7 +43,7 @@
 
 
 
-
+<!-- text under chart with sources -->
   <div class="wrapper endwrapper">
     <div class="conc">
       <p>This chart was built using d3js. Covid deaths data is from the <a href="www.gov.scot/">Scottish Government</a> and analysis of news coverage over the time period from <a href="https://www.bbc.co.uk/news/scotland/">BBC News Scotland</a> and various news sources.</p>
@@ -78,7 +80,7 @@ var tooltip = d3.select("#my_dataviz")
 //Read the data
 d3.csv("https://raw.githubusercontent.com/jmsc65/Covid-Timeline/main/deathsdata.csv",
 
-  // When reading the csv, I must format variables:
+  // format variables for reading from the csv:
   function(d){
     return { date : d3.timeParse("%Y-%m-%d")(d.date), value : d.value }
   },
@@ -104,7 +106,7 @@ d3.csv("https://raw.githubusercontent.com/jmsc65/Covid-Timeline/main/deathsdata.
       .attr("transform", "translate(-5,0)")
       .call(d3.axisLeft(y).tickSizeOuter(0));
 
-    // Add the area
+    // Add the area under line
     svg.append("path")
       .datum(data)
       .attr("fill", "#005EB8")
@@ -165,7 +167,7 @@ var focusText = svg
       }
 
       function mousemove() {
-        // recover coordinate we need
+        // recover coordinate needed
         var x0 = x.invert(d3.mouse(this)[0]);
         var i = bisect(data, x0, 1);
         selectedData = data[i]
@@ -195,7 +197,7 @@ d3.csv("eventsdata.csv",
 
   // When reading the csv, I must format variables:
   function(d){
-    return { date : d3.timeParse("%d/%m/%Y")(d.date), value : d.value, Header : d.Header, Text : d.Text, Link : d.Link, Href : d.Href}
+    return { Date : d3.timeParse("%d/%m/%Y")(d.Date), value : d.value, Header : d.Header, Text : d.Text, Link : d.Link, Href : d.Href}
   },
 
   // Now I can use this dataset:
@@ -203,7 +205,7 @@ d3.csv("eventsdata.csv",
 
 // Add X axis --> it is a date format
     var x = d3.scaleTime()
-      .domain(d3.extent(data, function(d) { return d.date; }))
+      .domain(d3.extent(data, function(d) { return d.Date; }))
       .range([ 0, width ]);
  
 
@@ -226,7 +228,7 @@ d3.csv("eventsdata.csv",
       .append("circle")
         .attr("fill", "red")
         .attr("stroke", "none")
-        .attr("cx", function(d) { return x(d.date) })
+        .attr("cx", function(d) { return x(d.Date) })
         .attr("cy", function(d) { height - 100 })
         .attr("r", 3)
         .on("mouseover", function(d) {
@@ -234,7 +236,7 @@ d3.csv("eventsdata.csv",
                   .duration(200)
                   .style("opacity", .9);
 
-             tooltip.html("<b>" + d.Header + "</b>" + "<br/>"  + d.Text + "<br><a href='"+ d.Href + "'>" + d.Link + "</a>" + "<br><a href='' onclick='closeTooltip()'> close</a>")
+             tooltip.html("<b>" + d.Header + "</b>" + "<br/>"  + d3.timeFormat("%d/%m/%Y")(d.Date) + "<br>" + d.Text + "<br><a href='"+ d.Href + "'>" + d.Link + "</a>" + "<br><a href='' onclick='closeTooltip()'> close</a>")
              .style("left", d3.event.pageX + "px")
              .style("top", d3.event.pageY  + "px");
 
@@ -242,7 +244,6 @@ d3.csv("eventsdata.csv",
          
           });
 
- 
 
 </script>
 </body>
